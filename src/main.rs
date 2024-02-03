@@ -7,10 +7,18 @@ fn init(repo_name: &str) -> Result<(), std::io::Error> {
         return Err(e);
     }
 
-    // create .git/
-    let git_dir = repo_name.to_owned() + "/.git/";
-    if let Err(e) = fs::create_dir(git_dir) {
+    // create .git/ folders
+    let primary_git_dir = repo_name.to_owned() + "/.git/";
+    if let Err(e) = fs::create_dir(&primary_git_dir) {
         return Err(e);
+    }
+
+    let git_dirs: [&str; 3] = ["/objects/", "/refs/", "/refs/heads/"];
+    for dir in git_dirs {
+        match fs::create_dir(dir) {
+            Ok(_) => println!("Directory '{}' created successfully", dir),
+            Err(e) => return Err(e),
+        }
     }
 
     Ok(())
