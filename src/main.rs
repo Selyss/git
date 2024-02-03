@@ -20,7 +20,7 @@ fn init(repo_name: &str) -> Result<(), std::io::Error> {
             Err(e) => return Err(e),
         }
     }
-    let mut head = fs::File::create("HEAD")?;
+    let mut head = fs::File::create(primary_git_dir + "/HEAD")?;
     if let Err(e) = head.write_all(b"ref: refs/heads/main") {
         return Err(e);
     }
