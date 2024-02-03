@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::Path;
+use std::io::prelude::*;
 
 fn init(repo_name: &str) -> Result<(), std::io::Error> {
     // create dir for repo and initialize .git/
@@ -19,6 +19,10 @@ fn init(repo_name: &str) -> Result<(), std::io::Error> {
             Ok(_) => println!("Directory '{}' created successfully", dir),
             Err(e) => return Err(e),
         }
+    }
+    let mut head = fs::File::create("HEAD")?;
+    if let Err(e) = head.write_all(b"ref: refs/heads/main") {
+        return Err(e);
     }
 
     Ok(())
