@@ -15,7 +15,7 @@ fn init(repo_name: &str) -> Result<(), std::io::Error> {
 
     let git_dirs: [&str; 3] = ["/objects/", "/refs/", "/refs/heads/"];
     for dir in git_dirs {
-        match fs::create_dir(dir) {
+        match fs::create_dir(primary_git_dir.clone() + dir) {
             Ok(_) => println!("Directory '{}' created successfully", dir),
             Err(e) => return Err(e),
         }
